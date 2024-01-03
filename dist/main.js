@@ -1,1 +1,3 @@
-index.js
+const { runScript } = require('./index.js');
+
+runScript("main");
