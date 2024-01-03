@@ -15,25 +15,39 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.runScript = void 0;
 const main_1 = __nccwpck_require__(3109);
+const path_1 = __importDefault(__nccwpck_require__(1017));
 const post_1 = __nccwpck_require__(95);
-function runScript(scriptName) {
+/*
+ * GitHub Action can provide multiple executable entrypoints (pre, main, post),
+ * but it is complicated process to generate multiple `.js` files with `ncc`.
+ * So we rather generate just one entrypoint, that is symlinked to multiple locations (main.js and post.js).
+ * Then when GitHub Action Runner executes it as `node path/to/main.js` and `node path/to/post.js`,
+ * it can read arguments it was executed with and decide which file to execute.
+ * The argv[0] is going to be a full path to `node` executable and
+ * the argv[1] is going to be the full path to the script.
+ * In case index.js would be marked executable and executed directly without the argv[1] it defaults to "main.js".
+ */
+function run([, name = 'main.js']) {
     return __awaiter(this, void 0, void 0, function* () {
-        switch (scriptName) {
-            case 'main':
+        const script = path_1.default.basename(name);
+        switch (script) {
+            case 'main.js':
                 yield (0, main_1.run)();
                 break;
-            case 'post':
+            case 'post.js':
                 yield (0, post_1.run)();
                 break;
             default:
-                throw new Error(`Unknown script argument: '${scriptName}'`);
+                throw new Error(`Unknown script argument: '${script}'`);
         }
     });
 }
-exports.runScript = runScript;
+run(process.argv);
 
 
 /***/ }),

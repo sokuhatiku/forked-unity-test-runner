@@ -1,3 +1,1 @@
-const { runScript } = require('./index.js');
-
-runScript("main");
+index.js
