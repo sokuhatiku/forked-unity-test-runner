@@ -106,6 +106,28 @@ foreach ( $platform in ${env:TEST_PLATFORMS}.Split(";") )
         }
     }
 
+    if (Test-Path -Path "C:\Program Files\Unity\Hub\Editor\${env:UNITY_VERSION}\editor\Unity.exe"){
+        Write-Output "Unity.exe exists"
+    } else {
+        Write-Output "Unity.exe does not exist"
+    }
+    if (Test-Path -Path "$FULL_ARTIFACTS_PATH\$platform.log"){
+        Write-Output "$FULL_ARTIFACTS_PATH\$platform.log exists"
+    } else {
+        Write-Output "$FULL_ARTIFACTS_PATH\$platform.log does not exist"
+    }
+    if (Test-Path -Path $UNITY_PROJECT_PATH){
+        Write-Output "$UNITY_PROJECT_PATH exists"
+    } else {
+        Write-Output "$UNITY_PROJECT_PATH does not exist"
+    }
+    if(Test-Path -Path $FULL_ARTIFACTS_PATH/$platform-results.xml){
+        Write-Output "$FULL_ARTIFACTS_PATH/$platform-results.xml exists"
+    } else {
+        Write-Output "$FULL_ARTIFACTS_PATH/$platform-results.xml does not exist"
+    }
+
+
     Write-Output "Start-Process -NoNewWindow -Wait -PassThru `"C:\Program Files\Unity\Hub\Editor\${env:UNITY_VERSION}\editor\Unity.exe`" -ArgumentList `"-batchmode -logFile $FULL_ARTIFACTS_PATH\$platform.log -projectPath $UNITY_PROJECT_PATH -coverageResultsPath $FULL_COVERAGE_RESULTS_PATH $runTests -enableCodeCoverage -debugCodeOptimization -coverageOptions ${env:COVERAGE_OPTIONS} ${env:CUSTOM_PARAMETERS}`""
 
     $TEST_OUTPUT = Start-Process -NoNewWindow -Wait -PassThru "C:\Program Files\Unity\Hub\Editor\${env:UNITY_VERSION}\editor\Unity.exe" -ArgumentList "-batchmode -logFile $FULL_ARTIFACTS_PATH\$platform.log -projectPath $UNITY_PROJECT_PATH -coverageResultsPath $FULL_COVERAGE_RESULTS_PATH $runTests -enableCodeCoverage -debugCodeOptimization -coverageOptions ${env:COVERAGE_OPTIONS} ${env:CUSTOM_PARAMETERS}"
