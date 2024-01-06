@@ -136,6 +136,7 @@ const Docker = {
                 --workdir c:/github/workspace \
                 --cidfile "${cidfile}" \
                 --rm \
+                --device class/5B45201D-F2F2-4F3B-85BB-30FF1F953599
                 ${ImageEnvironmentFactory.getEnvVarString(parameters)} \
                 --env TEST_PLATFORMS="${testPlatforms}" \
                 --env GITHUB_WORKSPACE="c:/github/workspace" \

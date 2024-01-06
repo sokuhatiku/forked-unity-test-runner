@@ -111,7 +111,6 @@ foreach ( $platform in ${env:TEST_PLATFORMS}.Split(";") )
                                 -Wait `
                                 -PassThru `
                                 -ArgumentList  "-batchmode `
-                                                -nographics `
                                                 -logFile $FULL_ARTIFACTS_PATH\$platform.log `
                                                 -projectPath $UNITY_PROJECT_PATH `
                                                 -coverageResultsPath $FULL_COVERAGE_RESULTS_PATH `
