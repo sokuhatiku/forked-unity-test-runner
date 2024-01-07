@@ -46,6 +46,11 @@ jobs:
           key: Library-${{ matrix.baseRunner }}-${{ matrix.projectPath }}
           restore-keys: |
             Library-${{ matrix.baseRunner }}
+      - name: Show System Detail
+        run: |
+          Get-WmiObject Win32_VideoController
+          Start-Process -FilePath msinfo32 -ArgumentList "/report C:\msinforeport.txt" -Wait
+          Get-Content -Path C:\msinforeport.txt
       - uses: ./
         id: tests
         timeout-minutes: 60
