@@ -106,6 +106,12 @@ foreach ( $platform in ${env:TEST_PLATFORMS}.Split(";") )
         }
     }
 
+    Get-WmiObject Win32_VideoController | Select-Object Name, VideoProcessor, DriverVersion, AdapterRAM, VideoModeDescription
+
+    Start-Process -Path msinfo32 -ArgumentList "/report C:\msinforeport.txt" -Wait
+    Get-Content -Path C:\msinforeport.txt | Select-String -Pattern "Display", "Graphics"
+
+
     $TEST_OUTPUT = Start-Process -FilePath "$Env:UNITY_PATH/Editor/Unity.exe" `
                                 -NoNewWindow `
                                 -Wait `
