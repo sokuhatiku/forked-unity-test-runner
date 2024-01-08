@@ -63,5 +63,5 @@ jobs:
         if: always()
         with:
           name: Test results for ${{ matrix.testMode }} on ${{ matrix.baseRunner }}
-          path: ${{ steps.tests.outputs.artifactsPath }}
+          path: ${{ matrix.baseRunner }}-${{ matrix.testMode }}-artifacts
           retention-days: 14
