@@ -111,6 +111,9 @@ foreach ( $platform in ${env:TEST_PLATFORMS}.Split(";") )
     Start-Process -FilePath msinfo32 -ArgumentList "/report C:\msinforeport.txt" -Wait
     Get-Content -Path C:\msinforeport.txt
 
+    # install DirectX
+    Invoke-WebRequest -URI "https://download.microsoft.com/download/1/7/1/1718CCC4-6315-4D8E-9543-8E28A4E18C4C/dxwebsetup.exe" -OutFile "dxwebsetup.exe"
+    Start-Process -FilePath dxwebsetup.exe -ArgumentList "/Q" -Wait
 
     $TEST_OUTPUT = Start-Process -FilePath "$Env:UNITY_PATH/Editor/Unity.exe" `
                                 -NoNewWindow `
