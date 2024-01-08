@@ -60,7 +60,8 @@ jobs:
           testMode: ${{ matrix.testMode }}
           artifactsPath: ${{ matrix.baseRunner }}-${{ matrix.testMode }}-artifacts
       - uses: actions/upload-artifact@v3
+        if: always()
         with:
-          name: Test results for ${{ matrix.testMode }}
+          name: Test results for ${{ matrix.testMode }} on ${{ matrix.baseRunner }}
           path: ${{ steps.tests.outputs.artifactsPath }}
           retention-days: 14
