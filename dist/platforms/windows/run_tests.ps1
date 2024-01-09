@@ -79,8 +79,14 @@ foreach ( $platform in ${env:TEST_PLATFORMS}.Split(";") )
         }
 
         # Copy the scripts
+        Write-Output "Copy From"
+        tree "c:\UnityStandaloneScripts\Assets\Editor"
+        tree "c:\UnityStandaloneScripts\Assets\Player"
         Copy-Item -Path "c:\UnityStandaloneScripts\Assets\Editor" -Destination $Env:UNITY_PROJECT_PATH\Assets\Editor -Recurse
         Copy-Item -Path "c:\UnityStandaloneScripts\Assets\Player" -Destination $Env:UNITY_PROJECT_PATH\Assets\Player -Recurse
+        Write-Output "Copy To"
+        tree $Env:UNITY_PROJECT_PATH\Assets\Editor
+        tree $Env:UNITY_PROJECT_PATH\Assets\Player
 
         # Verify recursive paths
         Get-ChildItem -Path $Env:UNITY_PROJECT_PATH\Assets\Editor -Recurse
@@ -105,15 +111,6 @@ foreach ( $platform in ${env:TEST_PLATFORMS}.Split(";") )
             $runTests = "-quit"
         }
     }
-
-    Get-WmiObject Win32_VideoController
-
-    Start-Process -FilePath msinfo32 -ArgumentList "/report C:\msinforeport.txt" -Wait
-    Get-Content -Path C:\msinforeport.txt
-
-    # install DirectX
-    Invoke-WebRequest -URI "https://download.microsoft.com/download/1/7/1/1718CCC4-6315-4D8E-9543-8E28A4E18C4C/dxwebsetup.exe" -OutFile "dxwebsetup.exe"
-    Start-Process -FilePath dxwebsetup.exe -ArgumentList "/Q" -Wait
 
     $TEST_OUTPUT = Start-Process -FilePath "$Env:UNITY_PATH/Editor/Unity.exe" `
                                 -NoNewWindow `
