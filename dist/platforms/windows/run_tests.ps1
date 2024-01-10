@@ -125,6 +125,9 @@ foreach ( $platform in ${env:TEST_PLATFORMS}.Split(";") )
                                                 -coverageOptions ${env:COVERAGE_OPTIONS} `
                                                 ${env:CUSTOM_PARAMETERS}"
 
+    # Copy Clash Log
+    Copy-Item -Path "$Env:LOCALAPPDATA\Temp\Unity\Editor\Crashes" -Destination $FULL_ARTIFACTS_PATH
+
     # Catch exit code
     $TEST_EXIT_CODE = $TEST_OUTPUT.ExitCode
 
