@@ -65,7 +65,7 @@ foreach ( $platform in ${env:TEST_PLATFORMS}.Split(";") )
         Write-Output "#   Building Standalone   #"
         Write-Output "###########################"
         Write-Output ""
-  
+
         # Create directories if they do not exist
         if(-Not (Test-Path -Path $UNITY_PROJECT_PATH\Assets\Editor))
         {
@@ -85,7 +85,7 @@ foreach ( $platform in ${env:TEST_PLATFORMS}.Split(";") )
         # Verify recursive paths
         Get-ChildItem -Path $UNITY_PROJECT_PATH\Assets\Editor -Recurse
         Get-ChildItem -Path $UNITY_PROJECT_PATH\Assets\Player -Recurse
-    
+
         $runTests="-runTests -testPlatform StandaloneWindows64 -builtTestRunnerPath $UNITY_PROJECT_PATH\Build\UnityTestRunner-Standalone.exe"
     }
     else
@@ -126,7 +126,7 @@ foreach ( $platform in ${env:TEST_PLATFORMS}.Split(";") )
                                                 ${env:CUSTOM_PARAMETERS}"
 
     # Copy Clash Log
-    Copy-Item -Path "$Env:LOCALAPPDATA\Temp\Unity\Editor\Crashes" -Destination $FULL_ARTIFACTS_PATH
+    Copy-Item -Path "$Env:LOCALAPPDATA\Temp\Unity\Editor\Crashes" -Destination $FULL_ARTIFACTS_PATH -Recurse
 
     # Catch exit code
     $TEST_EXIT_CODE = $TEST_OUTPUT.ExitCode
@@ -138,7 +138,7 @@ foreach ( $platform in ${env:TEST_PLATFORMS}.Split(";") )
     {
         # Code Coverage currently only supports code ran in the Editor and not in Standalone/Player.
         # https://docs.unity.cn/Packages/com.unity.testtools.codecoverage@1.1/manual/TechnicalDetails.html#how-it-works
-        
+
         $TEST_OUTPUT = Start-Process -NoNewWindow -Wait -PassThru "$UNITY_PROJECT_PATH\Build\UnityTestRunner-Standalone.exe" -ArgumentList "-batchmode -nographics -logFile $FULL_ARTIFACTS_PATH\$platform-player.log -testResults $FULL_ARTIFACTS_PATH\$platform-results.xml"
 
         # Catch exit code
