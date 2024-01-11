@@ -125,14 +125,14 @@ foreach ( $platform in ${env:TEST_PLATFORMS}.Split(";") )
                                                 -coverageOptions ${env:COVERAGE_OPTIONS} `
                                                 ${env:CUSTOM_PARAMETERS}"
 
-    # Copy Clash Log
-    Copy-Item -Path "$Env:LOCALAPPDATA\Temp\Unity\Editor\Crashes" -Destination $FULL_ARTIFACTS_PATH -Recurse
-
     # Catch exit code
     $TEST_EXIT_CODE = $TEST_OUTPUT.ExitCode
 
     # Print unity log output
     Get-Content "$FULL_ARTIFACTS_PATH/$platform.log"
+
+    # Copy Crash Log
+    Copy-Item -Path "C:/Users/CONTAI~1/AppData/Local/Temp/Unity/Editor/Crashes" -Destination $FULL_ARTIFACTS_PATH -Recurse
 
     if ( ( $TEST_EXIT_CODE -eq 0 ) -and ( "$platform" -eq "standalone" ) )
     {
